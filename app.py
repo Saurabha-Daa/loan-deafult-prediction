@@ -72,13 +72,13 @@ filename7.close()
 #Define a function to create a pipeline for prediction
 def inference(query): 
     #Add columns titled DEBT_INCOME_RATIO, LOAN_VALUE_RATIO & LOAN_INCOME_RATIO to a copy of query data
-    query_with_additinal_features = query.copy()    
-    query_with_additinal_features['DEBT_INCOME_RATIO'] = query_with_additinal_features['AMT_ANNUITY']/query_with_additinal_features['AMT_INCOME_TOTAL']
-    query_with_additinal_features['LOAN_VALUE_RATIO'] = query_with_additinal_features['AMT_CREDIT']/query_with_additinal_features['AMT_GOODS_PRICE']
-    query_with_additinal_features['LOAN_INCOME_RATIO'] = query_with_additinal_features['AMT_CREDIT']/query_with_additinal_features['AMT_INCOME_TOTAL']
+    #query_with_additinal_features = query.copy()    
+    query['DEBT_INCOME_RATIO'] = query['AMT_ANNUITY']/query['AMT_INCOME_TOTAL']
+    query['LOAN_VALUE_RATIO'] = query['AMT_CREDIT']/query['AMT_GOODS_PRICE']
+    query['LOAN_INCOME_RATIO'] = query['AMT_CREDIT']/query['AMT_INCOME_TOTAL']
     
     #Merge numerical features from bureau to query data
-    query_bureau = query_with_additinal_features.merge(bureau_numerical_merge, on='SK_ID_CURR', how='left', suffixes=('', '_BUREAU'))
+    query_bureau = query.merge(bureau_numerical_merge, on='SK_ID_CURR', how='left', suffixes=('', '_BUREAU'))
     #Merge categorical features from bureau to query data
     query_bureau = query_bureau.merge(bureau_categorical_merge, on='SK_ID_CURR', how='left', suffixes=('', '_BUREAU'))
     #Drop SK_ID_BUREAU
