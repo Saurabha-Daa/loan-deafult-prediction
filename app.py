@@ -98,16 +98,16 @@ def inference(query):
     columns_numerical = query_numerical.columns
     columns_categorical = query_categorical.columns
 
-    query_numerical_imputed = imputer.transform(query_numerical)
-    query_numerical_imputed_scaled = scaler.transform(query_numerical_imputed)
+    query_numerical_imputed_scaled_df = imputer.transform(query_numerical)
+    query_numerical_imputed_scaled_df = scaler.transform(query_numerical_imputed)
     query_numerical_imputed_scaled_df = pd.DataFrame(data = query_numerical_imputed_scaled, columns = columns_numerical)
 
-    query_categorical_imputed = imputer_constant.transform(query_categorical)
-    query_categorical_imputed_ohe = ohe.transform(query_categorical_imputed)
+    query_categorical_imputed_ohe_df = imputer_constant.transform(query_categorical)
+    query_categorical_imputed_ohe_df = ohe.transform(query_categorical_imputed)
     query_categorical_imputed_ohe_df = pd.DataFrame(data = query_categorical_imputed_ohe.toarray(), columns = list(columns_ohe))
 
-    query_data_all_features = pd.concat((query_numerical_imputed_scaled_df, query_categorical_imputed_ohe_df), axis = 1)
-    query_data = query_data_all_features[selected_features]
+    query_data = pd.concat((query_numerical_imputed_scaled_df, query_categorical_imputed_ohe_df), axis = 1)
+    query_data = query_data[selected_features]
 
     predictions = model.predict(query_data)
     return predictions
