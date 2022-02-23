@@ -106,7 +106,7 @@ def inference(query):
     query_categorical_imputed_ohe_df = ohe.transform(query_categorical_imputed_ohe_df)
     query_categorical_imputed_ohe_df = pd.DataFrame(data = query_categorical_imputed_ohe_df.toarray(), columns = list(columns_ohe))
 
-    query_data = pd.concat((query_numerical_imputed_scaled_df, query_categorical_imputed_ohe_df), axis = 1)
+    query_data = pd.concat([query_numerical_imputed_scaled_df, query_categorical_imputed_ohe_df], axis = 1)
     query_data = query_data[selected_features]
 
     predictions = model.predict(query_data)
